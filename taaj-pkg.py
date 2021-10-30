@@ -51,33 +51,30 @@ termux_py = [
     "requests"
 ]
 
-# Arch on termux
-
-termux_arch = 'pkg install wget openssl-tool proot tar -y && hash -r && wget https://raw.githubusercontent.com/EXALAB/AnLinux-Resources/master/Scripts/Installer/Arch/armhf/arch.sh && bash arch.sh'
-
 # Script Flags
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-l", "--linux",
-                    help="Linux pkgs")
+                    help="Same Python modules for all distros")
 
 parser.add_argument("-a", "--arch",
-                    help="Arch pkgs")
+                    help="Options of Arch Linux")
 
 parser.add_argument("-t", "--termux",
-                    help="Termux pkgs")
+                    help="Options of Termux")
+
 args = parser.parse_args()
 
 # Linux Python pkg installation
 
 
-def python_pkgs():
+def python_pkgs(key):
     starting = input("[?] Start instalation? [Y/n] ") or "Y"
 
     if starting == "y" or starting == "Y":
         print(f"{green}[+] started{reset_color}\n")
-        for pkg in track(python, description="Installing..."):
+        for pkg in track(key, description="Installing..."):
             print(f"{yellow}[*]{pkg}:{reset_color}")
             os.system(f'pip install {pkg}')
             print(f"{green}[+] Task Done!{reset_color}\n")
@@ -85,25 +82,27 @@ def python_pkgs():
     elif starting == "n" or starting == "N":
         print(f"{red}[X] Canceled!{reset_color}")
     else:
-        python_pkgs()
+        print(f'{red}[X] Not Defined!')
+        exit
 
 # Package installation for arch linux
 
 
-def arch_setup():
+def linux_setup(key1, key2):
     starting = input("[?] Start instalation? [Y/n] ") or "Y"
 
     if starting == "y" or starting == "Y":
         print(f"{green}[+] started{reset_color}\n")
-        for pkg in track(arch_pkgs, description="Installing..."):
+        for pkg in track(key2, description="Installing..."):
             print(f"{yellow}[*]{pkg}:{reset_color}")
-            os.system(f'pacman -Sy {pkg}')
+            os.system(key1 + pkg)
             print(f"{green}[+] Task Done!{reset_color}\n")
 
     elif starting == "n" or starting == "N":
         print(f"{red}[X] Canceled!{reset_color}")
     else:
-        python_pkgs()
+        print(f'{red}[X] Not Defined!')
+        exit
 
     os.system("exit")
 
@@ -115,7 +114,7 @@ def termux_setup():
     starting = input("[?] Start Setup? [Y/n] ") or "Y"
     if starting == "y" or starting == "Y":
         print(f"{green}[+] started{reset_color}\n")
-        for command in track(termux_start, description="Installing..."):
+        for command in termux_start:
             print(f"{yellow}[*]{command}:{reset_color}")
             os.system(command)
             print(f"{green}[+] Task Done!{reset_color}\n")
@@ -123,59 +122,9 @@ def termux_setup():
     elif starting == "n" or starting == "N":
         print(f"{red}[X] Canceled!{reset_color}")
     else:
-        python_pkgs()
-
-# Arch linux installation in termux
-
-
-def arch_termux():
-
-    starting = input("[?] Start Installation? [Y/n] ") or "Y"
-    if starting == "y" or starting == "Y":
-        print(f"{green}[+] started{reset_color}\n")
-        print(f"{yellow}[*]{termux_arch}:{reset_color}")
-        os.system(termux_arch)
-        print(f"{green}[+] Task Done!{reset_color}\n")
-
-    elif starting == "n" or starting == "N":
-        print(f"{red}[X] Canceled!{reset_color}")
-    else:
-        python_pkgs()
+        pass
 
 # Termux requirements installation
-
-
-def termux_requirements():
-    starting = input("[?] Start instalation? [Y/n] ") or "Y"
-    if starting == "y" or starting == "Y":
-        print(f"{green}[+] started{reset_color}\n")
-        for requirement in track(termux_install, description="Installing..."):
-            print(f"{yellow}[*]{requirement}:{reset_color}")
-            os.system(f"pkg install {requirement} -y")
-            print(f"{green}[+] Task Done!{reset_color}\n")
-
-    elif starting == "n" or starting == "N":
-        print(f"{red}[X] Canceled!{reset_color}")
-    else:
-        python_pkgs()
-
-# Termux python dependencies
-
-
-def termux_python():
-
-    starting = input("[?] Start instalation? [Y/n] ") or "Y"
-    if starting == "y" or starting == "Y":
-        print(f"{green}[+] started{reset_color}\n")
-        for pkg in track(termux_py, description="Installing..."):
-            print(f"{yellow}[*]{pkg}:{reset_color}")
-            os.system(f"pip install {pkg}")
-            print(f"{green}[+] Task Done!{reset_color}\n")
-
-    elif starting == "n" or starting == "N":
-        print(f"{red}[X] Canceled!{reset_color}")
-    else:
-        python_pkgs()
 
 
 def main():
@@ -186,9 +135,10 @@ def main():
             for pkg in python:
                 print(cyan + pkg + reset_color)
             print("\n")
-            python_pkgs()
+            python_pkgs(python)
         except KeyboardInterrupt:
             print(f"\n{red}[X] Canceled!{reset_color}")
+
     # Arch Linux
 
     if args.arch == "pkgs":
@@ -197,7 +147,8 @@ def main():
                 for pkg in arch_pkgs:
                     print(cyan + pkg + reset_color)
                 print("\n")
-                arch_setup()
+                arch_standard = "pacman -Syu "
+                linux_setup(arch_standard, arch_pkgs)
             else:
                 print(
                     f"{yellow}[!] Run as root in order to work currectly!{reset_color}\n")
@@ -214,12 +165,13 @@ def main():
         except KeyboardInterrupt:
             print(f"\n{red}[X] Canceled!{reset_color}")
 
-    elif args.termux == "requirements":
+    elif args.termux == "pkgs":
         try:
             for requirement in termux_install:
                 print(cyan + requirement + reset_color)
             print("\n")
-            termux_requirements()
+            termux_standard = "pkg install "
+            linux_setup(termux_standard, termux_install)
         except KeyboardInterrupt:
             print(f"\n{red}[X] Canceled!{reset_color}")
 
@@ -228,18 +180,9 @@ def main():
             for pkg in termux_py:
                 print(cyan + pkg + reset_color)
             print("\n")
-            termux_python()
+            python_pkgs(termux_py)
         except KeyboardInterrupt:
             print(f"\n{red}[X] Canceled!{reset_color}")
-
-    elif args.termux == "arch":
-        try:
-            print(f'{cyan} Installation of arch linux for termux {reset_color}')
-            print("\n")
-            arch_termux()
-        except KeyboardInterrupt:
-            print(f"\n{red}[X] Canceled!{reset_color}")
-
     else:
         print(f'{red}[X] Nothing to do!{reset_color}')
 
