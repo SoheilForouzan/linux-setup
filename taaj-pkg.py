@@ -34,7 +34,7 @@ arch_pkgs = [
 
 # Termux section
 termux_start = [
-    "pkg update", "pkg upgrade", "termux-setup-storage"
+    "pkg update -y", "pkg upgrade -y", "termux-setup-storage"
 ]
 
 termux_install = [
