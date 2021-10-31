@@ -66,6 +66,13 @@ parser.add_argument("-t", "--termux",
 
 args = parser.parse_args()
 
+
+# List all tasks for a given flag
+
+def listing(tasks):
+    for task in tasks:
+        print(cyan, task, reset_color)
+    print("\nTasks:", len(tasks))
 # Linux Python pkg installation
 
 
@@ -132,8 +139,7 @@ def main():
 
     if args.linux == "py":
         try:
-            for pkg in python:
-                print(cyan + pkg + reset_color)
+            listing(python)
             print("\n")
             python_pkgs(python)
         except KeyboardInterrupt:
@@ -144,8 +150,7 @@ def main():
     if args.arch == "pkgs":
         try:
             if os.geteuid() == 0:
-                for pkg in arch_pkgs:
-                    print(cyan + pkg + reset_color)
+                listing(arch_pkgs)
                 print("\n")
                 arch_standard = "pacman -Syu "
                 linux_setup(arch_standard, arch_pkgs)
@@ -158,8 +163,7 @@ def main():
 
     if args.termux == "setup":
         try:
-            for command in termux_start:
-                print(cyan + command + reset_color)
+            listing(termux_start)
             print("\n")
             termux_setup()
         except KeyboardInterrupt:
@@ -167,8 +171,7 @@ def main():
 
     elif args.termux == "pkgs":
         try:
-            for requirement in termux_install:
-                print(cyan + requirement + reset_color)
+            listing(termux_install)
             print("\n")
             termux_standard = "pkg install "
             linux_setup(termux_standard, termux_install)
@@ -177,8 +180,7 @@ def main():
 
     elif args.termux == "py":
         try:
-            for pkg in termux_py:
-                print(cyan + pkg + reset_color)
+            listing(termux_py)
             print("\n")
             python_pkgs(termux_py)
         except KeyboardInterrupt:
