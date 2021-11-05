@@ -21,15 +21,15 @@ python = [
     "telebot", "python-dotenv", "autopep8",
     "secure-smtplib", "pyperclip3", "random2",
     "paramiko", "opencv-python", "scipy",
-    "bs4", "datetime",
+    "bs4", "datetime", "pygame"
 ]
 
 arch_pkgs = [
-    'neofetch', 'bpytop', 'htop',
-    'tor', 'tmux', 'virtualbox',
-    'preload', 'libreoffice-fresh', 'nmap',
-    'geary', 'discord', 'discover',
-    'android-tools', 'whois'
+    "neofetch", "bpytop", "htop",
+    "tor", "tmux", "virtualbox",
+    "preload", "libreoffice-fresh", "nmap",
+    "geary", "discord", "discover",
+    "android-tools", "whois", "kvantum-qt5"
 ]
 
 # Termux section
@@ -83,13 +83,13 @@ def python_pkgs(key):
         print(f"{green}[+] started{reset_color}\n")
         for pkg in track(key, description="Installing..."):
             print(f"{yellow}[*]{pkg}:{reset_color}")
-            os.system(f'pip install {pkg}')
+            os.system(f"pip install {pkg}")
             print(f"{green}[+] Task Done!{reset_color}\n")
 
     elif starting == "n" or starting == "N":
         print(f"{red}[X] Canceled!{reset_color}")
     else:
-        print(f'{red}[X] Not Defined!')
+        print(f"{red}[X] Not Defined!")
         exit
 
 # Package installation for arch linux
@@ -108,7 +108,7 @@ def linux_setup(key1, key2):
     elif starting == "n" or starting == "N":
         print(f"{red}[X] Canceled!{reset_color}")
     else:
-        print(f'{red}[X] Not Defined!')
+        print(f"{red}[X] Not Defined!")
         exit
 
     os.system("exit")
@@ -186,7 +186,7 @@ def main():
         except KeyboardInterrupt:
             print(f"\n{red}[X] Canceled!{reset_color}")
     else:
-        print(f'{red}[X] Nothing to do!{reset_color}')
+        print(f"{red}[X] Nothing to do!{reset_color}")
 
 
 if __name__ == "__main__":
