@@ -31,7 +31,7 @@ arch_pkgs = [
     "preload", "libreoffice-fresh", "nmap",
     "discord", "discover", "gcc",
     "android-tools", "whois", "kvantum-qt5",
-    "etcher", "cython"
+    "etcher", "cython", "mysql"
 ]
 
 # Termux section
