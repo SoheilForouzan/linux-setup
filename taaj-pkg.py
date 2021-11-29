@@ -21,15 +21,17 @@ python = [
     "telebot", "python-dotenv", "autopep8",
     "secure-smtplib", "pyperclip3", "random2",
     "paramiko", "opencv-python", "scipy",
-    "bs4", "datetime", "pygame"
+    "bs4", "datetime", "pygame",
+    "python-dev-tools", "cython"
 ]
 
 arch_pkgs = [
     "neofetch", "bpytop", "htop",
     "tor", "tmux", "virtualbox",
     "preload", "libreoffice-fresh", "nmap",
-    "geary", "discord", "discover",
-    "android-tools", "whois", "kvantum-qt5"
+    "discord", "discover", "gcc",
+    "android-tools", "whois", "kvantum-qt5",
+    "etcher", "cython"
 ]
 
 # Termux section
@@ -48,7 +50,7 @@ termux_py = [
     "pytelegrambotapi", "telebot", "python-dotenv",
     "secure-smtplib", "pyperclip3", "random2",
     "datetime", "bs4", "paramiko",
-    "requests"
+    "requests", "cython","python-dev-tools",
 ]
 
 # Script Flags
